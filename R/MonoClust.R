@@ -15,17 +15,19 @@
 #' @param minsplit The minimum number of observations that must exist in a node
 #'   in order for a split to be attempted. Default is 5.
 #' @param minbucket The minimum number of observations in any terminal leaf
-#'   node. Default is minsplit/3.
+#'   node. Default is `minsplit/3`.
 #' @param ncores Number of CPU cores on the current host. If greater than 1,
 #'   parallel processing with [foreach::foreach()] is used to distribute cut
-#'   search on variables to processes.
+#'   search on variables to processes. When set to NULL, all available cores are
+#'   used.
 #'
-#' @return MonoClust object.
+#' @return A `MonoClust` object. See [`MonoClust.object`].
+#' @importFrom rlang .data
 #' @export
 #'
 #' @references
 #' 1. Chavent, M. (1998). A monothetic clustering method. Pattern Recognition
-#' Letters, 19(11), 989–996. https://doi.org/10.1016/S0167-8655(98)00087-7
+#' Letters, 19(11), 989-996. \doi{10.1016/S0167-8655(98)00087-7}.
 #' 2. Tran, T. V. (2019). Monothetic Cluster Analysis with Extensions to
 #' Circular and Functional Data. Montana State University - Bozeman.
 #'
@@ -268,7 +270,22 @@ MonoClust <- function(toclust,
   names(medoids) <- cluster_frame$number[cluster_frame$var == "<leaf>"]
 
   # For display purpose, all -99 is turned to NA
-  cluster_frame <- replace(cluster_frame, cluster_frame == -99, NA)
+  cluster_frame <- tibble::add_column(
+    replace(dplyr::select(cluster_frame, -.data$alt),
+            dplyr::select(cluster_frame, -.data$alt) == -99,
+            NA),
+    dplyr::select(cluster_frame, .data$alt)
+  )
+
+  # Make variables corresponding to leaves NA
+  cluster_frame[cluster_frame$var == "<leaf>",
+                c("bipartsplitrow", "bipartsplitcol")] <- NA
+
+  # Remove all rows from alt data frame if it is a leave
+  cluster_frame$alt <-
+    purrr::map_if(cluster_frame$alt,
+                  cluster_frame$var == "<leaf>",
+                  ~ slice(.x, 0))
 
   MonoClust_obj <-
     list(frame = cluster_frame,
@@ -329,7 +346,6 @@ splitter <- function(data, cuts, split_row, frame, cloc, dist,
 
   frame$var[split_row]         <- variable_name
   frame$cut[split_row]         <- mid_cutpoint
-  frame$bipartvar[split_row]   <- variable_name
   frame$split.order[split_row] <- split_order
 
   # New cluster 1
@@ -469,8 +485,11 @@ find_split <- function(data, cuts, frame_row, cloc, dist, variables, minsplit,
                   ncol = ncol(ind_1))
 
   # If multiple splits produce the same inertia change output a warning.
-  if (nrow(ind_1) > 1)
-    frame_row$alt <- TRUE
+  if (nrow(ind_1) > 1) {
+    a <- ind_1[, -3]
+    colnames(a) <- c("bipartsplitrow", "bipartsplitcol")
+    frame_row$alt <- list(tibble::as_tibble(a)[-1, ])
+  }
 
   # If there is at least one row that satisfies minbucket, pick the first one
   if (nrow(ind_1) != 0L) {

@@ -41,7 +41,8 @@ by Rousseeuw (1987)).}
 \item{bon.adj}{Whether to adjust for multiple testing problem using
 Bonferroni correction.}
 
-\item{ncores}{Number of CPU cores on the current host.}
+\item{ncores}{Number of CPU cores on the current host. When set to NULL,
+all available cores are used.}
 }
 \value{
 The same \code{MonoClust} object with an extra column (p-value), as well
@@ -105,9 +106,10 @@ ruspini6.p_value
 \references{
 Calinski, T. and Harabasz, J (1974). "A dendrite method for cluster
 analysis". en. In: \emph{Communications in Statistics} 3.1, pp. 1-27.
+\doi{10.1080/03610927408827101}.
 
 Rousseeuw, P. J. (1987). "Silhouettes: A graphical aid to the interpretation
 and validation of cluster analysis". In: \emph{Journal of Computational and
-Applied Mathematics} 20, pp. 53-65. ISSN: 03770427. DOI:
-10.1016/0377-0427(87) 90125-7.
+Applied Mathematics} 20, pp. 53-65. ISSN: 03770427.
+\doi{10.1016/0377-0427(87)90125-7}.
 }

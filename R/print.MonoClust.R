@@ -16,7 +16,7 @@
 #'   arguments for this function.
 #' @param spaces Spaces indent between 2 tree levels.
 #' @param digits Number of significant digits to print.
-#' @param ... Optional arguments to [abbreviate()]
+#' @param ... Optional arguments to [abbreviate()].
 #'
 #' @return A nicely displayed MonoClust split tree.
 #' @seealso [abbreviate()]
@@ -71,7 +71,7 @@ print.MonoClust <- function(x, abbrev = c("no", "short", "abbreviate"),
     }
   }
 
-  if (any(frame$alt))
+  if (sum(purrr::map_int(frame$alt, nrow)) > 0)
     cat("\nNote: One or more of the splits chosen had an alternative split that
         reduced inertia by the same amount. See \"alt\" column of \"frame\"
         object for details.")
