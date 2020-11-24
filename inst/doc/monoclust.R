@@ -16,6 +16,7 @@ ruspini4c
 plot(ruspini4c)
 
 ## ----cptable------------------------------------------------------------------
+set.seed(12345)
 cp.table <- cv.test(ruspini, fold = 5, minnodes = 1, maxnodes = 10)
 cp.table
 

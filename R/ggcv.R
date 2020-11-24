@@ -10,7 +10,8 @@
 #' @param err.col Color of the error bars.
 #' @param err.width Width of the bars.
 #'
-#' @import dplyr
+#' @return A ggplot2 object.
+#' @importFrom dplyr `%>%`
 #' @importFrom rlang .data
 #' @seealso Plot using base R [plot.cv.MonoClust()]
 #' @export
@@ -36,15 +37,15 @@ ggcv <- function(cv.obj,
   if (missing(cv.obj))
     stop("\"cv.obj\" is required.")
   if (!inherits(cv.obj, "cv.MonoClust"))
-    stop("Not a legitimate \"cv.MonoClust\" object")
+    stop("Not a legitimate \"cv.MonoClust\" object.")
   type <- match.arg(type)
 
   cv_table <- cv.obj$cv
 
   p <-
     cv_table %>%
-    mutate(upper1SD = .data$MSE + .data$`Std. Dev.`,
-           lower1SD = .data$MSE - .data$`Std. Dev.`) %>%
+    dplyr::mutate(upper1SD = .data$MSE + .data$`Std. Dev.`,
+                  lower1SD = .data$MSE - .data$`Std. Dev.`) %>%
     ggplot2::ggplot(ggplot2::aes(x = .data$ncluster, y = .data$MSE)) +
     ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$lower1SD,
                                         ymax = .data$upper1SD),

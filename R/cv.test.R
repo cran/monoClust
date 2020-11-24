@@ -32,15 +32,13 @@
 #' predicting a new observation,
 #' \deqn{CV_K = \overline{MSE} = \frac{1}{M} \sum_{m=1}^M MSE_m.}
 #'
-#' @note This function supports parallel processing with [foreach::foreach]. It
-#'   distributes MonoClust calls to processes.
+#' @note This function supports parallel processing with [foreach::foreach()].
+#'   It distributes MonoClust calls to processes.
 #'
 #' @return A `MonoClust.cv` class containing a data frame of mean sum of square
 #'   error and its standard deviation.
 #' @seealso [plot.cv.MonoClust()], [MonoClust()], [predict.MonoClust()]
 #' @export
-#'
-#' @importFrom stats sd
 #'
 #' @examples
 #' \donttest{
@@ -62,10 +60,10 @@ cv.test <- function(data, fold = 10L, minnodes = 2L, maxnodes = 10L,
 
   if (!is.null(ncores)){
     if (!is.numeric(ncores)) {
-      stop("\"ncores\" should be either NULL or a positive integer")
+      stop("\"ncores\" should be either NULL or a positive integer.")
     }
     if (ncores < 1) {
-      stop("\"ncores\" should be > 1")
+      stop("\"ncores\" should be > 1.")
     }
   }
 
@@ -96,7 +94,7 @@ cv.test <- function(data, fold = 10L, minnodes = 2L, maxnodes = 10L,
                          }
       sse_t[[k - minnodes + 1]] <- c(ncluster = k,
                                      MSE = mean(sse_i),
-                                     `Std. Dev.` = sd(sse_i))
+                                     `Std. Dev.` = stats::sd(sse_i))
     }
 
     ret <- list(cv = dplyr::bind_rows(sse_t),
@@ -123,7 +121,7 @@ cv.test <- function(data, fold = 10L, minnodes = 2L, maxnodes = 10L,
                          }
       sse_t[[k - minnodes + 1]] <- c(ncluster = k,
                                      MSE = mean(sse_i),
-                                     `Std. Dev.` = sd(sse_i))
+                                     `Std. Dev.` = stats::sd(sse_i))
     }
     ret <- list(cv = dplyr::bind_rows(sse_t),
                 cv.type = paste0(fold, "-fold Cross-validation"))

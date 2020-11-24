@@ -1,3 +1,23 @@
+# monoClust 1.2.0
+  
+## New functions
+* `inertia_calc()` and `medoid()` are now exported functions.
+* `is_MonoClust()` to check if an object is an inherited class of `MonoClust`.
+* Create a S3 function `as_MonoClust()` so other packages (such as `PULS`) can 
+  reuse print and plot functions. However, no implementation is done in this 
+  package.
+  
+## Changes to functions
+* `plot.MonoClust()` allows the `cols` argument to have the length greater
+  than the number of leaves. In that case, function will not throw error and 
+  only a subset of it will be used.
+* `MonoClust.object` gains `alt` object as an indicator of whether an alternate
+  route is available.
+  
+## Bugs and Improvements
+* Fix typos.
+* More minimum version requirements for other dependencies.
+
 # monoClust 1.1.0
 
 ## Changes to functions
@@ -15,7 +35,7 @@
 ## Fix bugs
 * Min version of dependency `tibble()` is 3.0.0 because `tibble::add_row()` is
   used with the new behavior.
-* Fix some typos and clarify some documentation
+* Fix some typos and clarify some documentation.
 
 # monoClust 1.0.0
 

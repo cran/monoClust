@@ -83,17 +83,17 @@ perm.test <- function(object, data, auto.pick = FALSE, sig.val = 0.05,
                       bon.adj = TRUE,
                       ncores = 1L) {
 
-  if (!inherits(object, "MonoClust"))
-    stop("Not a legitimate \"MonoClust\" object")
+  if (!is_MonoClust(object))
+    stop("Not a legitimate \"MonoClust\" object.")
   method <- match.arg(method)
   stat <- match.arg(stat)
 
   if (!is.null(ncores)){
     if (!is.numeric(ncores)) {
-      stop("\"ncores\" should be either NULL or a positive integer")
+      stop("\"ncores\" should be either NULL or a positive integer.")
     }
     if (ncores < 1) {
-      stop("\"ncores\" should be > 1")
+      stop("\"ncores\" should be > 1.")
     }
   }
 
@@ -287,7 +287,7 @@ test_split <- function(members_l, members_r, method, data, split_var, rep,
 #' @keywords internal
 cluster_stats <- function(d, clustering) {
 
-  d <- as.dist(d)
+  d <- stats::as.dist(d)
   nclust <- max(clustering)
   n <- length(clustering)
 
@@ -298,7 +298,7 @@ cluster_stats <- function(d, clustering) {
   dmat <- as.matrix(d)
   within_ss <- 0
   for (i in 1:nclust) {
-    d_i <- as.dist(dmat[clustering == i, clustering == i])
+    d_i <- stats::as.dist(dmat[clustering == i, clustering == i])
 
     if (i <= nclust) {
       within_ss <- within_ss + sum(d_i^2) / sum(clustering == i)

@@ -34,7 +34,7 @@
 #'   (`"p"`), or both (`"b"`).
 #' @param rel.loc.x Whether to use the relative distance between clusters as x
 #'   coordinate of the leaves. Default is TRUE.
-#' @param show.pval If MonClust object has been run through [perm.test()],
+#' @param show.pval If MonoClust object has been run through [perm.test()],
 #'   whether to show p-value on the tree.
 #' @param ... Arguments to be passed to [graphics::plot.default()] and
 #'   [graphics::lines()].
@@ -49,7 +49,7 @@
 #'
 #' # MonoClust tree
 #' ruspini4sol <- MonoClust(ruspini, nclusters = 4)
-#' plot(ruspini4sol)#'
+#' plot(ruspini4sol)
 #' \donttest{
 #' # MonoClust tree after permutation test is run
 #' ruspini6sol <- MonoClust(ruspini, nclusters = 6)
@@ -68,15 +68,19 @@ plot.MonoClust <- function(x, uniform = FALSE, branch = 1,
                            cols = NULL, col.type = c("l", "p", "b"),
                            rel.loc.x = TRUE, show.pval = TRUE, ...) {
 
-  if (!inherits(x, "MonoClust"))
-    stop("Not a MonoClust object")
+  if (!is_MonoClust(x))
+    stop("Not a MonoClust object.")
   if (!(which %in% 1:4))
     stop("\"which\" has to be a value between 1 and 4.")
   abbrev <- match.arg(abbrev)
   if (!is.null(cols)) {
-    if (length(cols) > 1 & length(cols) != sum(x$frame$var == "<leaf>"))
-      stop("When set, \"col\" has to contain 1 color or number of colors equal
-      to the number of leaves.")
+    if (length(cols) > 1) {
+      if (length(cols) < sum(x$frame$var == "<leaf>"))
+        stop(paste("When set, \"col\" has to contain 1 color or the number of",
+                   "colors is greater or equal to the number of leaves."))
+      cols <- cols[1:sum(x$frame$var == "<leaf>")]
+    }
+
     col.type <- match.arg(col.type)
   }
 
@@ -97,4 +101,5 @@ plot.MonoClust <- function(x, uniform = FALSE, branch = 1,
       }
     }
   }
+  return(invisible(x))
 }
