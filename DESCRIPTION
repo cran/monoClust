@@ -1,6 +1,6 @@
 Package: monoClust
 Title: Perform Monothetic Clustering with Extensions to Circular Data
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: 
     c(person(given = "Tan",
              family = "Tran",
@@ -32,16 +32,17 @@ Imports: cluster (>= 2.0.5), doParallel, dplyr (>= 1.0.0), foreach,
         ggplot2, graphics, grDevices, parallel, permute, purrr (>=
         0.3.0), rlang (>= 0.3.0), stats, stringr (>= 0.5), tibble (>=
         3.0.0), tidyr (>= 1.0.0)
-Suggests: knitr, mice, rmarkdown
+Suggests: knitr, mice, rmarkdown, covr, testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2020-11-24 12:23:58 UTC; Tan Tran
+Packaged: 2021-02-15 00:10:00 UTC; vinht
 Author: Tan Tran [aut, cre] (<https://orcid.org/0000-0001-9881-6339>),
   Brian McGuire [aut],
   Mark Greenwood [aut] (<https://orcid.org/0000-0001-6933-1201>)
 Maintainer: Tan Tran <vinhtantran@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-11-24 12:50:02 UTC
+Date/Publication: 2021-02-15 15:00:02 UTC

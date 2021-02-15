@@ -34,7 +34,7 @@ ruspini6c <- MonoClust(ruspini, nclusters = 6)
 ruspini6c.pvalue <- perm.test(ruspini6c, data = ruspini, method = "sw", rep = 1000)
 plot(ruspini6c.pvalue, branch = 1, uniform = TRUE)
 
-## ----sensit2008plot, fig.cap="Splitting rule for the four-cluster solution. The color at the node can be set by `cols` argument. They match the ones in Figure \\@ref(fig:PCPellipsev)."----
+## ----sensit2008plot, fig.cap="Splitting rule for the four-cluster solution. The color at the node can be set by `cols` argument. They match the ones in the figure below."----
 data(wind_sensit_2008)
 # For the sake of speed in the example
 wind_reduced_2008 <- wind_sensit_2008[sample.int(nrow(wind_sensit_2008), 50), ]
